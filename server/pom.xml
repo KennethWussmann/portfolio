@@ -145,7 +145,7 @@
             <plugin>
                 <groupId>com.github.z3d1k</groupId>
                 <artifactId>ktlint-maven-plugin</artifactId>
-                <version>0.1.5</version>
+                <version>0.2.1</version>
                 <executions>
                     <execution>
                         <id>lint</id>
