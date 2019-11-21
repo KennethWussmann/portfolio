@@ -13,7 +13,7 @@
   "license": "ISC",
   "devDependencies": {
     "@fortawesome/fontawesome-free-webfonts": "1.0.9",
-    "@types/bootstrap": "^3.3.38",
+    "@types/bootstrap": "^4.3.1",
     "@types/jquery": "^3.3.0",
     "animate-scss": "^3.2.1",
     "bootstrap": "^4.0.0-alpha.6",
