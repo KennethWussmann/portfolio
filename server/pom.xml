@@ -14,7 +14,7 @@
 
     <properties>
         <kotlin.version>1.3.60</kotlin.version>
-        <commonmark-ext.version>0.13.0</commonmark-ext.version>
+        <commonmark-ext.version>0.13.1</commonmark-ext.version>
     </properties>
 
     <dependencies>
