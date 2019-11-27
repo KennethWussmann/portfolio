@@ -13,7 +13,7 @@
     <artifactId>server</artifactId>
 
     <properties>
-        <kotlin.version>1.3.60</kotlin.version>
+        <kotlin.version>1.3.61</kotlin.version>
         <commonmark-ext.version>0.13.1</commonmark-ext.version>
     </properties>
 
