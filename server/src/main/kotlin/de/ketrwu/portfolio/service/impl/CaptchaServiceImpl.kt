@@ -7,10 +7,10 @@ import de.ketrwu.portfolio.entity.api.CaptchaReloadResponse
 import de.ketrwu.portfolio.service.CaptchaService
 import org.apache.commons.lang.RandomStringUtils
 import org.slf4j.Logger
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.context.event.ApplicationReadyEvent
 import org.springframework.context.event.EventListener
 import org.springframework.core.io.Resource
-import org.springframework.core.io.support.PathMatchingResourcePatternResolver
 import org.springframework.stereotype.Service
 import java.awt.Color
 import java.awt.Font
@@ -32,6 +32,9 @@ import kotlin.collections.set
  */
 @Service
 class CaptchaServiceImpl : CaptchaService {
+
+    @Value("classpath:static/captcha-fonts/atwriter.ttf")
+    lateinit var ttfFontFile: Resource
 
     private val solutions = HashMap<String, String>()
     private val fonts = ArrayList<Font>()
@@ -79,16 +82,10 @@ class CaptchaServiceImpl : CaptchaService {
     @EventListener(ApplicationReadyEvent::class)
     override fun loadFonts() {
         fonts.clear()
-        val cl = this.javaClass.classLoader
-        val resolver = PathMatchingResourcePatternResolver(cl)
         try {
-            for (resource in resolver.getResources("classpath*:/static/captcha-fonts/*.ttf")) {
-                createFont(resource)?.let {
-                    fonts.add(it)
-                }
-            }
-        } catch (e: IOException) {
-            log.error("Failed to find fonts in classpath", e)
+            fonts.add(Font("LucidaTypewriterRegular", Font.ITALIC, FONT_SIZE))
+        } catch (e: Exception) {
+            createFont(ttfFontFile)?.let(fonts::add)
         }
     }
 
@@ -165,9 +162,9 @@ class CaptchaServiceImpl : CaptchaService {
             font = Font.createFont(Font.TRUETYPE_FONT, resource.inputStream)
             font = font?.deriveFont(FONT_SIZE)
         } catch (e: FontFormatException) {
-            log.error("Failed to create font of file \"{}\"", resource.filename, e)
+            log.error("Failed to create font of file \"{}\"", resource.url, e)
         } catch (e: IOException) {
-            log.error("Failed to create font of file \"{}\"", resource.filename, e)
+            log.error("Failed to create font of file \"{}\". (file not found?)", resource.url, e)
         }
         return font
     }
@@ -177,7 +174,7 @@ class CaptchaServiceImpl : CaptchaService {
         private val IMG_SIZE = intArrayOf(180, 40)
         private val SOLUTION_LENGTH = intArrayOf(3, 7)
         private val STRING_COLORS = listOf(Color.red, Color.gray, Color.yellow, Color.blue, Color.orange)
-        private const val FONT_SIZE = 20f
+        private const val FONT_SIZE = 20
 
         @Slf4j
         lateinit var log: Logger

@@ -1,0 +1,8 @@
+version: '3'
+
+services:
+  portfolio:
+    image: docker.ketrwu.host/portfolio
+    ports:
+    - "8080:8080"
+    command: --spring.cloud.config.uri=http://config.ketrwu.host:32044
